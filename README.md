@@ -1,16 +1,16 @@
 # binance_candles
 
-A new Flutter project.
+Flutter crypto charts using [candlesticks](https://pub.dev/packages/candlesticks) package and [Binance API](https://github.com/binance/binance-spot-api-docs)
 
-## Getting Started
+[Web Demo](https://rmzy.dev/candlesticks)
 
-This project is a starting point for a Flutter application.
+features:</br>
+    - supports all cryptos listed in binance</br>
+    - live data update</br>
+    - switch iterval
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    
+|	|		|
+|:------------:|:------------:|
+|	[![](https://github.com/r-mzy47/binance_candles/blob/master/screenshots/binance_candles_3.PNG)](https://github.com/r-mzy47/candlesticks/blob/master/example/lib/main.dart)   |	[![](https://github.com/r-mzy47/binance_candles/blob/master/screenshots/binance_candles_2.PNG)](https://github.com/r-mzy47/candlesticks/blob/master/example/lib/main.dart) | 
+[![](https://github.com/r-mzy47/binance_candles/blob/master/screenshots/binance_candles_1.PNG)](https://github.com/r-mzy47/candlesticks/blob/master/example/lib/main.dart) | 
