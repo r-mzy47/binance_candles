@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:binance_candles/candle_ticker_model.dart';
-import 'package:binance_candles/repository.dart';
+import './candle_ticker_model.dart';
+import './repository.dart';
 import 'package:flutter/material.dart';
 import 'package:candlesticks/candlesticks.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  BinanceRepository repository = new BinanceRepository();
+  BinanceRepository repository = BinanceRepository();
 
   List<Candle> candles = [];
   WebSocketChannel? _channel;
@@ -40,12 +40,25 @@ class _MyAppState extends State<MyApp> {
   ];
   List<String> symbols = [];
   String currentSymbol = "";
+  List<Indicator> indicators = [
+    BollingerBandsIndicator(
+      length: 20,
+      stdDev: 2,
+      upperColor: const Color(0xFF2962FF),
+      basisColor: const Color(0xFFFF6D00),
+      lowerColor: const Color(0xFF2962FF),
+    ),
+    WeightedMovingAverageIndicator(
+      length: 100,
+      color: Colors.green.shade600,
+    ),
+  ];
 
   @override
   void initState() {
     fetchSymbols().then((value) {
       symbols = value;
-      if (symbols.length != 0) fetchCandles(symbols[0], currentInterval);
+      if (symbols.isNotEmpty) fetchCandles(symbols[0], currentInterval);
     });
     super.initState();
   }
@@ -99,7 +112,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void updateCandlesFromSnapshot(AsyncSnapshot<Object?> snapshot) {
-    if (candles.length == 0) return;
+    if (candles.isEmpty) return;
     if (snapshot.data != null) {
       final map = jsonDecode(snapshot.data as String) as Map<String, dynamic>;
       if (map.containsKey("k") == true) {
@@ -146,7 +159,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Binance Candles"),
+          title: const Text("Binance Candles"),
           actions: [
             IconButton(
               onPressed: () {
@@ -169,8 +182,16 @@ class _MyAppState extends State<MyApp> {
               updateCandlesFromSnapshot(snapshot);
               return Candlesticks(
                 key: Key(currentSymbol + currentInterval),
+                indicators: indicators,
                 candles: candles,
                 onLoadMoreCandles: loadMoreCandles,
+                onRemoveIndicator: (String indicator) {
+                  setState(() {
+                    indicators = [...indicators];
+                    indicators
+                        .removeWhere((element) => element.name == indicator);
+                  });
+                },
                 actions: [
                   ToolBarAction(
                     onPressed: () {
@@ -281,7 +302,7 @@ class _SymbolSearchModalState extends State<SymbolSearchModal> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   autofocus: true,
-                  decoration: InputDecoration(prefixIcon: Icon(Icons.search)),
+                  decoration: const InputDecoration(prefixIcon: Icon(Icons.search)),
                   onChanged: (value) {
                     setState(() {
                       symbolSearch = value;

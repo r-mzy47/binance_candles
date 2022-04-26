@@ -29,7 +29,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  candlesticks: 2.1.0
+  candlesticks:
+    git:
+      url: https://github.com/r-mzy47/candlesticks.git
+
   web_socket_channel:
   http:
 
